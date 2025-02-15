@@ -20,7 +20,7 @@ export default function DocumentPage({
   });
 
   return (
-    <main className="space-y-8 w-full">
+    <main key={document?._id} className="space-y-8 w-full">
       {!document && (
         <div className="space-y-8">
           <div>
