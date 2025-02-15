@@ -45,7 +45,6 @@ const Testimonials: FC = () => (
     className="sm:py-16 py-6 flex justify-center items-center flex-col relative"
   >
     {/* Gradient Background */}
-    <div className="absolute z-0 w-[60%] h-[60%] -right-[50%] rounded-full blue__gradient bottom-40" />
 
     {/* Header Section */}
     <div className="w-[90%] mx-auto text-black dark:text-white flex justify-between items-center flex-col sm:mb-16 mb-6">
