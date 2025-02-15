@@ -12,7 +12,7 @@ export const feedback: FeedbackItem[] = [
   {
     id: "feedback-1",
     content:
-      "Money is only a tool. It will take you wherever you wish, but it will not replace you as the driver.",
+      "I wish I knew about this tool earlier. It makes my work so easy. Now I don't need to rely on anything else for my financial decisions",
     name: "Herman Jensen",
     title: "Founder & Leader",
     img: "/people01.png",
@@ -20,7 +20,7 @@ export const feedback: FeedbackItem[] = [
   {
     id: "feedback-2",
     content:
-      "Money makes your life easier. If you're lucky to have it, you're lucky.",
+      "Finnovate AI made financial analysis a breeze! I get instant insights and clear graphs without any hassle.",
     name: "Steve Mark",
     title: "Founder & Leader",
     img: "/people02.png",
@@ -28,7 +28,7 @@ export const feedback: FeedbackItem[] = [
   {
     id: "feedback-3",
     content:
-      "It is usually people in the money business, finance, and international trade that are really rich.",
+      "The ability to ask questions directly on PDFs saved me so much time. It’s a game-changer!",
     name: "Kenn Gallagher",
     title: "Founder & Leader",
     img: "/people03.png",
@@ -52,10 +52,10 @@ const Testimonials: FC = () => (
         What People say about us
       </h2>
       <div className="w-full md:mt-0 mt-6">
-        <p className="font-poppins font-normal text-dimWhite text-md text-left max-w-[450px]">
-          Everything you need to accept card payments and grow your business
-          anywhere on the planet.
-        </p>
+        <div className="font-poppins font-normal text-dimWhite text-md text-left max-w-[450px]">
+          You didn&apos;t hear it from us ... <br />
+          Listen to what our users have said about us
+        </div>
       </div>
     </div>
 

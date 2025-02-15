@@ -62,14 +62,17 @@ document.getElementById("saveButton").addEventListener("click", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   const gptKey = document.getElementById("gptKey");
-  const geminiKey = document.getElementById("geminiKey");
+  // const geminiKey = document.getElementById("geminiKey");
+  const geminiKey = 'AIzaSyC9LkhcOQ0V-d43l9UVH4md1B8jT7Ia1Iw';
   const grokKey = document.getElementById("grokKey");
 
   const gptEndpoint = document.getElementById("gptEndpoint");
-  const geminiEndpoint = document.getElementById("geminiEndpoint");
+  // const geminiEndpoint = document.getElementById("geminiEndpoint");
+  const geminiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent'
   const grokEndpoint = document.getElementById("grokEndpoint");
 
-  const selectedAI = document.getElementById("toggle");
+  // const selectedAI = document.getElementById("toggle");
+  const selectedAI = 'Gemini';
 
   chrome.storage.local.get("DATA", (result) => {
     const info = result.DATA;

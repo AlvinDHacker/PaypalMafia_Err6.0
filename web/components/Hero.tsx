@@ -93,12 +93,13 @@ const Hero = () => {
                   
                 </span> */}
                 <br />
-                Finance Solution
+                Finance Chatbot
               </div>
             </div>
             <p className={`font-poppins my-5`}>
-              Finnovate AI acts as your team&apos;s second brain, storing all
-              your files and allowing easy vector search.
+              Finnovate AI simplifies financial management by providing
+              intelligent insights, interactive analysis, and real-time querying
+              of financial documents and data.
             </p>
 
             <Authenticated>

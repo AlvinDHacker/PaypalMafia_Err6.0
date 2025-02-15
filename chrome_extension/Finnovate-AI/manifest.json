@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Ai Assistant",
+  "name": "Finnovate AI",
   "version": "1.0",
-  "description": "Ai in your daily life",
+  "description": "Finnovate AI is a domain-specific, AI-powered financial management platform designed to revolutionize how organizations manage their finances. Leveraging custom Large Language Models (LLMs) and Generative AI, Finnovate AI provides intelligent financial insights, tax optimization strategies, and seamless financial document analysis, helping businesses make data-driven financial decisions with ease.",
   "permissions": [
     "activeTab",
     "scripting",
