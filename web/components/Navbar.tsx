@@ -1,67 +1,46 @@
-import { useState } from "react";
+"use client";
 
-import { close, logo, menu } from "../assets";
-import { navLinks } from "../constants";
-import { Menu, X } from "lucide-react";
+import { ModeToggle } from "@/components/ui/mode-toggle";
+import Image from "next/image";
+import { HeaderActions } from "./header-actions";
+import Link from "next/link";
+import { OrganizationSwitcher } from "@clerk/nextjs";
+import { Authenticated } from "convex/react";
 
 const Navbar = () => {
-  const [active, setActive] = useState("Home");
-  const [toggle, setToggle] = useState(false);
-
   return (
-    <nav className="w-full flex py-6 justify-between items-center navbar">
-        <div className="flex ">
-            <img src={logo} alt="hoobank" className="w-[60px] h-[50px]" />
-            <div className="text-white text-center text-4xl font-bold pl-2">Finnovate AI</div>
+    <div className="z-10 w-full flex py-2 justify-between items-center navbar relative">
+      <div className="container mx-auto flex justify-between items-center">
+        <div className="flex gap-8 items-center">
+          <Link href="/" className="flex items-center gap-4 text-2xl font-bold">
+            <Image
+              src="/finnovate_logo.png"
+              width={40}
+              height={40}
+              className="rounded"
+              alt="logo"
+            />
+            Finnovate AI
+          </Link>
+
+          <nav className="flex items-center gap-8">
+            <OrganizationSwitcher />
+
+            <Authenticated>
+              <Link href="/dashboard" className="hover:text-slate-300">
+                Dashboard
+              </Link>
+            </Authenticated>
+          </nav>
         </div>
-      
 
-      <ul className="list-none sm:flex hidden justify-end items-center flex-1">
-        {navLinks.map((nav, index) => (
-          <li
-            key={nav.id}
-            className={`font-poppins font-normal cursor-pointer text-[16px] ${
-              active === nav.title ? "text-white" : "text-dimWhite"
-            } ${index === navLinks.length - 1 ? "mr-0" : "mr-10"}`}
-            onClick={() => setActive(nav.title)}
-          >
-            <a href={`#${nav.id}`}>{nav.title}</a>
-          </li>
-        ))}
-      </ul>
+        <div className="flex gap-4 items-center">
+          <ModeToggle />
 
-      <div className="sm:hidden flex flex-1 justify-end items-center">
-        {
-            
-        }
-        <img
-          src={toggle ? <X/> : <Menu/>}
-          alt="menu"
-          className="w-[28px] h-[28px] object-contain"
-          onClick={() => setToggle(!toggle)}
-        />
-
-        <div
-          className={`${
-            !toggle ? "hidden" : "flex"
-          } p-6 bg-black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar`}
-        >
-          <ul className="list-none flex justify-end items-start flex-1 flex-col">
-            {navLinks.map((nav, index) => (
-              <li
-                key={nav.id}
-                className={`font-poppins font-medium cursor-pointer text-[16px] ${
-                  active === nav.title ? "text-white" : "text-white"
-                } ${index === navLinks.length - 1 ? "mb-0" : "mb-4"}`}
-                onClick={() => setActive(nav.title)}
-              >
-                <a href={`#${nav.id}`}>{nav.title}</a>
-              </li>
-            ))}
-          </ul>
+          <HeaderActions />
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 

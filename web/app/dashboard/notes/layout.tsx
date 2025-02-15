@@ -46,13 +46,8 @@ export default function NotesLayout({ children }: { children: ReactNode }) {
       {notes?.length === 0 && (
         <div>
           <div className="py-12 flex flex-col justify-center items-center gap-2">
-            <Image
-              src="/documents.png"
-              width="200"
-              height="200"
-              alt="docs"
-            />
-            <h2 className="text-2xl">You have no notes</h2>
+            <Image src="/documents.png" width="200" height="200" alt="docs" />
+            <h2 className="text-md mb-2">You have no notes</h2>
             <CreateNoteButton />
           </div>
         </div>

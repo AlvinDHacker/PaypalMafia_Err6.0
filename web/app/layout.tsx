@@ -3,8 +3,8 @@ import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { cn } from "@/lib/utils";
-import { Header } from "@/app/header";
 import { Toaster } from "@/components/ui/toaster";
+import Navbar from "@/components/Navbar";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -12,7 +12,8 @@ const fontSans = FontSans({
 });
 export const metadata: Metadata = {
   title: "Finnovate AI",
-  description: "Finnovate AI is an AI-powered document management system that helps you organize and access your documents quickly and easily.",
+  description:
+    "Finnovate AI is an AI-powered document management system that helps you organize and access your documents quickly and easily.",
 };
 
 export default function RootLayout({
@@ -29,7 +30,7 @@ export default function RootLayout({
         )}
       >
         <Providers>
-          <Header />
+          <Navbar />
           {children}
           <Toaster />
         </Providers>
