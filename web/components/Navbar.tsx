@@ -27,7 +27,7 @@ const Navbar = () => {
             <OrganizationSwitcher />
 
             <Authenticated>
-              <Link href="/dashboard" className="hover:text-slate-300">
+              <Link href="/dashboard" className="text-sm hover:underline">
                 Dashboard
               </Link>
             </Authenticated>

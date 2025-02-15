@@ -2,12 +2,15 @@
 
 import { SignInButton, UserButton } from "@clerk/nextjs";
 import { Authenticated, Unauthenticated, AuthLoading } from "convex/react";
+import { Button } from "./ui/button";
 
 export function HeaderActions() {
   return (
     <>
       <Unauthenticated>
-        <SignInButton />
+        <Button>
+          <SignInButton />
+        </Button>
       </Unauthenticated>
 
       <Authenticated>

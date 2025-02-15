@@ -9,10 +9,12 @@ interface FeedbackCardProps {
 }
 
 const FeedbackCard: FC<FeedbackCardProps> = ({ content, name, title, img }) => (
-  <div className="dark:hover:bg-black hover:bg-white
+  <div
+    className="dark:hover:bg-black hover:bg-white
   dark:bg-gray-800 bg-gray-200
    dark:text-white flex
-  hover:text-black justify-between flex-col px-10 py-12 rounded-[20px] max-w-[370px] md:mr-10 sm:mr-5 mr-0 my-5 feedback-card">
+  hover:text-black justify-between transition-all duration-200 flex-col px-10 py-12 rounded-[20px] max-w-[370px] md:mr-10 sm:mr-5 mr-0 my-5 feedback-card"
+  >
     <Image
       src="/quotes.svg"
       alt="double_quotes"
