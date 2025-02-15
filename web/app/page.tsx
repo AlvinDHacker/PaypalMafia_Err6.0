@@ -1,4 +1,5 @@
 import CTA from "@/components/CTA";
+import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Testimonials from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
@@ -64,6 +65,7 @@ export default function LandingPage() {
       <Hero />
       <Testimonials />
       <CTA />
+      <Footer />
     </>
   );
 }
