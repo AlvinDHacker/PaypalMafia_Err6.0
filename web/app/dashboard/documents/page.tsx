@@ -48,7 +48,7 @@ export default function Home() {
       )}
 
       {documents && documents.length > 0 && (
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-3 gap-8">
           {documents?.map((doc, i) => <DocumentCard key={i} document={doc} />)}
         </div>
       )}
