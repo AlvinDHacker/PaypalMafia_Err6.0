@@ -24,7 +24,7 @@ export default function LandingPage() {
               src="/finnovate_logo.png"
               width="200"
               height="200"
-              alt="a woman holding a document"
+              alt="logo"
               className="mx-auto rounded-2xl mb-4"
             />
             <h1 className="dark:text-gray-50 text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">

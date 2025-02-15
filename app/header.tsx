@@ -12,13 +12,13 @@ export function Header() {
     <div className="z-10 relative dark:bg-slate-900 bg-slate-50 py-4">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex gap-8 items-center">
-          <Link href="/" className="flex items-center gap-4 text-2xl">
+          <Link href="/" className="flex items-center gap-4 text-2xl font-bold">
             <Image
               src="/finnovate_logo.png"
               width={40}
               height={40}
               className="rounded"
-              alt="an image of a brain"
+              alt="logo"
             />
             Finnovate AI
           </Link>
