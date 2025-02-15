@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { ClipboardPen, Cog, FilesIcon, Search } from "lucide-react";
+import { BarChart2, ClipboardPen, FilesIcon, Search } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -14,7 +14,7 @@ export default function SideNav() {
         <li>
           <Link
             className={cn(
-              "font-light flex gap-2 items-center text-xl hover:text-cyan-400 dark:hover:text-cyan-100",
+              "flex flex-row gap-3 min-h-0 flex-1 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
               {
                 "text-cyan-300": pathname.endsWith("/search"),
               }
@@ -28,7 +28,7 @@ export default function SideNav() {
         <li>
           <Link
             className={cn(
-              "font-light flex gap-2 items-center text-xl hover:text-cyan-400 dark:hover:text-cyan-100",
+              "flex flex-row gap-3 min-h-0 flex-1 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
               {
                 "text-cyan-300": pathname.endsWith("/documents"),
               }
@@ -42,7 +42,7 @@ export default function SideNav() {
         <li>
           <Link
             className={cn(
-              "font-light flex gap-2 items-center text-xl hover:text-cyan-400 dark:hover:text-cyan-100",
+              "flex flex-row gap-3 min-h-0 flex-1 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
               {
                 "text-cyan-300": pathname.endsWith("/notes"),
               }
@@ -51,6 +51,20 @@ export default function SideNav() {
           >
             <ClipboardPen />
             Notes
+          </Link>
+        </li>
+        <li>
+          <Link
+            className={cn(
+              "flex flex-row gap-3 min-h-0 flex-1 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
+              {
+                "text-cyan-300": pathname.endsWith("/analytics"),
+              }
+            )}
+            href="/dashboard/analytics"
+          >
+            <BarChart2 />
+            Analytics
           </Link>
         </li>
       </ul>

@@ -2,12 +2,12 @@
 
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import Image from "next/image";
-import { HeaderActions } from "../components/header-actions";
+import { HeaderActions } from "./header-actions";
 import Link from "next/link";
 import { OrganizationSwitcher } from "@clerk/nextjs";
 import { Authenticated } from "convex/react";
 
-export function Header() {
+const Navbar = () => {
   return (
     <div className="z-10 w-full flex py-2 justify-between items-center navbar relative">
       <div className="container mx-auto flex justify-between items-center">
@@ -42,4 +42,6 @@ export function Header() {
       </div>
     </div>
   );
-}
+};
+
+export default Navbar;

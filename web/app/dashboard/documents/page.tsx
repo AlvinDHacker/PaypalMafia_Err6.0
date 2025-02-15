@@ -38,13 +38,8 @@ export default function Home() {
 
       {documents && documents.length === 0 && (
         <div className="py-12 flex flex-col justify-center items-center gap-2">
-          <Image
-            src="/documents.png"
-            width="200"
-            height="200"
-            alt="docs"
-          />
-          <h2 className="text-2xl">You have no documents</h2>
+          <Image src="/documents.png" width="200" height="200" alt="docs" />
+          <h2 className="text-md mb-2">You have no documents</h2>
           <CreateDocumentButton />
         </div>
       )}

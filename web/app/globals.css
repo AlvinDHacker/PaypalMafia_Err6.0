@@ -33,6 +33,12 @@
       --ring: 240 10% 3.9%;
 
       --radius: 0.5rem;
+      --chart-1: 146 60% 45%; /* Deep Green */
+    --chart-2: 163 50% 50%; /* Soft Green */
+    --chart-3: 130 40% 55%; /* Muted Green */
+    --chart-4: 80 60% 65%;  /* Pastel Green */
+    --chart-5: 60 80% 75%;  /* Light Creamy Green */
+
     }
 
     .dark {
@@ -63,6 +69,12 @@
       --border: 240 3.7% 15.9%;
       --input: 240 3.7% 15.9%;
       --ring: 240 4.9% 83.9%;
+
+      --chart-1: 140 70% 40%; /* Dark Forest Green */
+      --chart-2: 150 65% 45%; /* Rich Teal Green */
+      --chart-3: 120 50% 50%; /* Olive Green */
+      --chart-4: 100 55% 60%; /* Soft Leaf Green */
+      --chart-5: 90 70% 85%;  /* Pale Mint */
     }
   }
 
