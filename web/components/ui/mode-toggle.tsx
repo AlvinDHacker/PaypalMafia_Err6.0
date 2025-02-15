@@ -26,11 +26,11 @@ export function ModeToggle() {
     <div>
       {darkMode ? (
         <Button onClick={() => setDarkMode(!darkMode)} variant={"outline"}>
-          <Sun />
+          <Sun size={15} />
         </Button>
       ) : (
         <Button onClick={() => setDarkMode(!darkMode)} variant={"outline"}>
-          <Moon />
+          <Moon size={15} />
         </Button>
       )}
     </div>

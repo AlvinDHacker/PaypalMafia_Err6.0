@@ -12,7 +12,10 @@ const Navbar = () => {
     <div className="z-10 w-full flex py-2 justify-between items-center navbar relative">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex gap-8 items-center">
-          <Link href="/" className="flex items-center gap-4 text-2xl font-bold">
+          <Link
+            href="/"
+            className="flex items-center gap-3 sm:text-2xl text-xl font-bold"
+          >
             <Image
               src="/finnovate_logo.png"
               width={40}
@@ -23,7 +26,7 @@ const Navbar = () => {
             Finnovate AI
           </Link>
 
-          <nav className="flex items-center gap-8">
+          <nav className="sm:flex hidden items-center gap-8">
             <OrganizationSwitcher />
 
             <Authenticated>

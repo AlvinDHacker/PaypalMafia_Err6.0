@@ -76,9 +76,9 @@ const Hero = () => {
         >
           <div className="flex flex-row items-center py-[6px] px-4 bg-discount-gradient rounded-[10px] mb-2"></div>
 
-          <div className="w-[90%] mx-auto">
+          <div className="sm:w-[90%] w-full mx-auto">
             <Badge className={`font-poppins font-normal text-sm ml-2 mb-4`}>
-              <span>Take Control of your Financial Documents</span>
+              <span>Take Control of your Finances</span>
             </Badge>
             <div className="flex flex-row justify-between items-center">
               <div className="flex-1 font-poppins font-semibold sm:text-7xl text-5xl text-black dark:text-white">
@@ -160,9 +160,9 @@ const Hero = () => {
           Our Main Features
         </h2>
 
-        <div className="grid grid-cols-4 gap-3 mb-6">
-          <div className="col-span-2">
-            <Terminal className="w-full">
+        <div className="grid sm:grid-cols-4 gap-3 mb-6">
+          <div className="sm:col-span-2">
+            <Terminal className="sm:w-full min-w-[90%]">
               <TypingAnimation>
                 &gt; The Next Generation Finance Solution
               </TypingAnimation>
@@ -198,7 +198,7 @@ const Hero = () => {
                 <span className="pl-2">- Try it out</span>
               </AnimatedSpan>
               <TypingAnimation delay={6500} className="text-muted-foreground">
-                Success! Project initialization completed.
+                Success! Project initialized.
               </TypingAnimation>
               <TypingAnimation delay={7000} className="text-muted-foreground">
                 You may now add components.
@@ -264,13 +264,25 @@ const Hero = () => {
             <h2 className="font-poppins font-semibold text-3xl mb-4 mt-10 w-full">
               We&apos;ve trained for everything on Finance
             </h2>
-            <div className="w-full md:mt-0 mt-6">
-              <p className="font-poppins font-normal text-dimWhite w-[450px] text-md text-left mb-3 ">
+            <div className="w-full mt-6">
+              <p className="font-poppins font-normal text-dimWhite max-w-[450px] text-md text-left mb-6 ">
                 From saving and investing to budgeting and wealth management, we
                 cover every aspect of finance to help you make informed
                 decisions and secure your financial future.
               </p>
             </div>
+            <Authenticated>
+              <Link href={"/dashboard"}>
+                <Button className="gap-3">
+                  Try it out <ExternalLink />
+                </Button>
+              </Link>
+            </Authenticated>
+            <Unauthenticated>
+              <Button>
+                <SignInButton />
+              </Button>
+            </Unauthenticated>
           </div>
           <div className="relative flex size-full items-center justify-center overflow-hidden">
             <IconCloud images={images} />
