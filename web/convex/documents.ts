@@ -271,7 +271,7 @@ export const askQuestion = action({
             content: `please answer this question: ${args.question}`,
           },
         ],
-        model: "gpt-3.5-turbo",
+        model: "gpt-4o",
       });
 
     await ctx.runMutation(internal.chats.createChatRecord, {
