@@ -8,11 +8,13 @@ export default defineSchema({
   }).index("by_orgId_userId", ["orgId", "userId"]),
   documents: defineTable({
     title: v.string(),
-    description: v.optional(v.string()),
-    tokenIdentifier: v.optional(v.string()),
-    orgId: v.optional(v.string()),
-    embedding: v.optional(v.array(v.float64())),
     fileId: v.id("_storage"),
+    description: v.string(),
+    orgId: v.optional(v.string()),
+    tokenIdentifier: v.optional(v.string()),
+    embedding: v.optional(v.array(v.float64())),
+    fileType: v.string(),
+    extractedText: v.string(),
   })
     .index("by_tokenIdentifier", ["tokenIdentifier"])
     .index("by_orgId", ["orgId"])
