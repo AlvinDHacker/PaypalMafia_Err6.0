@@ -1,4 +1,5 @@
 import Hero from "@/components/Hero";
+import Testimonials from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
 import { SignInButton } from "@clerk/nextjs";
 import Image from "next/image";
@@ -60,6 +61,7 @@ export default function LandingPage() {
         </div>
       </div> */}
       <Hero />
+      <Testimonials />
     </>
   );
 }
