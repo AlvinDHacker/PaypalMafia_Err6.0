@@ -18,8 +18,8 @@ export default function Home() {
 
   return (
     <main className="w-full space-y-8">
-      <div className="flex justify-between items-center">
-        <h1 className="text-4xl font-bold">My Documents</h1>
+      <div className="flex sm:flex-row flex-col gap-3 justify-between items-center">
+        <h1 className="sm:text-4xl text-2xl font-bold">My Documents</h1>
         <CreateDocumentButton />
       </div>
 

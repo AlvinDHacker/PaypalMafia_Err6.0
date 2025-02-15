@@ -1,7 +1,8 @@
 "use client";
 
+import { DockIcon, Docks } from "@/components/ui/dock";
 import { cn } from "@/lib/utils";
-import { BarChart2, ClipboardPen, FilesIcon, Search } from "lucide-react";
+import { BarChart2, ClipboardPen, Files, Search } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -10,13 +11,13 @@ export default function SideNav() {
 
   return (
     <nav>
-      <ul className="space-y-6">
+      <ul className="sm:block hidden space-y-6">
         <li>
           <Link
             className={cn(
               "flex flex-row gap-3 min-h-0 flex-1 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
               {
-                "text-cyan-300": pathname.endsWith("/search"),
+                "text-green-600": pathname.endsWith("/search"),
               }
             )}
             href="/dashboard/search"
@@ -30,12 +31,12 @@ export default function SideNav() {
             className={cn(
               "flex flex-row gap-3 min-h-0 flex-1 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
               {
-                "text-cyan-300": pathname.endsWith("/documents"),
+                "text-green-600": pathname.endsWith("/documents"),
               }
             )}
             href="/dashboard/documents"
           >
-            <FilesIcon />
+            <Files />
             Documents
           </Link>
         </li>
@@ -44,7 +45,7 @@ export default function SideNav() {
             className={cn(
               "flex flex-row gap-3 min-h-0 flex-1 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
               {
-                "text-cyan-300": pathname.endsWith("/notes"),
+                "text-green-600": pathname.endsWith("/notes"),
               }
             )}
             href="/dashboard/notes"
@@ -58,7 +59,7 @@ export default function SideNav() {
             className={cn(
               "flex flex-row gap-3 min-h-0 flex-1 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
               {
-                "text-cyan-300": pathname.endsWith("/analytics"),
+                "text-green-600": pathname.endsWith("/analytics"),
               }
             )}
             href="/dashboard/analytics"
@@ -68,6 +69,65 @@ export default function SideNav() {
           </Link>
         </li>
       </ul>
+      <div className="sm:hidden block fixed w-[80%] mx-1 bottom-0">
+        <Docks
+          className="z-10 rounded-t-xl bg-white dark:bg-black shadow-md shadow-second"
+          direction="middle"
+        >
+          <DockIcon>
+            <Link href={"/dashboard/search"}>
+              <Search
+                className={cn("size-6 text-second", {
+                  "text-green-600": pathname.endsWith("/search"),
+                })}
+              />
+            </Link>
+          </DockIcon>
+          <DockIcon>
+            <Link href={"/dashboard/documents"}>
+              <Files
+                className={cn("size-6 text-second", {
+                  "text-green-600": pathname.endsWith("/documents"),
+                })}
+              />
+            </Link>
+          </DockIcon>
+          <DockIcon>
+            <Link href={"/dashboard/notes"}>
+              <ClipboardPen
+                className={cn("size-6 text-second", {
+                  "text-green-600": pathname.endsWith("/notes"),
+                })}
+              />
+            </Link>
+          </DockIcon>
+          <DockIcon>
+            <Link href={"/dashboard/analytics"}>
+              <BarChart2
+                className={cn("size-6 text-second", {
+                  "text-green-600": pathname.endsWith("/analytics"),
+                })}
+              />
+            </Link>
+          </DockIcon>
+        </Docks>
+      </div>
+      {/* <div className="fixed w-full bottom-0">
+        <div className="flex w-[70%] mx-auto bg-green-500 p-3 justify-between sm:hidden">
+          <div>
+            <Search />
+          </div>
+          <div>
+            <Files />
+          </div>
+          <div>
+            <ClipboardPen />
+          </div>
+          <div>
+            <BarChart2 />
+          </div>
+        </div>
+      </div> */}
     </nav>
   );
 }
