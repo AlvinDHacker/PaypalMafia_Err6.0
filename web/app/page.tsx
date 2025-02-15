@@ -1,3 +1,4 @@
+import CTA from "@/components/CTA";
 import Hero from "@/components/Hero";
 import Testimonials from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
@@ -62,6 +63,7 @@ export default function LandingPage() {
       </div> */}
       <Hero />
       <Testimonials />
+      <CTA />
     </>
   );
 }
