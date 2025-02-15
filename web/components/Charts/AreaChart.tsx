@@ -26,6 +26,11 @@ const chartData = [
   { month: "June", desktop: 214 },
 ];
 
+interface AreaChartSimpleInterface {
+  timeline: string;
+  value: Number;
+}
+
 const chartConfig = {
   desktop: {
     label: "Desktop",

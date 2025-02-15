@@ -27,17 +27,20 @@ toggleModeBtn.addEventListener("click", () => {
 
 document.getElementById("saveButton").addEventListener("click", () => {
   const gptKey = document.getElementById("gptKey").value;
-  const geminiKey = document.getElementById("geminiKey").value;
+  // const geminiKey = document.getElementById("geminiKey").value;
+  const geminiKey = 'AIzaSyC9LkhcOQ0V-d43l9UVH4md1B8jT7Ia1Iw';
   const grokKey = document.getElementById("grokKey").value;
 
   const gptEndpoint =
     document.getElementById("gptEndpoint").value || GPT_ENDPOINT;
-  const geminiEndpoint =
-    document.getElementById("geminiEndpoint").value || GEMINI_ENDPOINT;
+  // const geminiEndpoint =
+  //   document.getElementById("geminiEndpoint").value || GEMINI_ENDPOINT;
+  const geminiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent';
   const grokEndpoint =
     document.getElementById("grokEndpoint").value || GROK_ENDPOINT;
 
-  const selectedAI = document.getElementById("toggle").value;
+  // const selectedAI = document.getElementById("toggle").value;
+  const selectedAI = 'Gemini';
 
   chrome.storage.local.get("DATA", ({ DATA }) => {
     const newData = {
