@@ -19,8 +19,9 @@ export default function ChatPanel({
         <div className="dark:bg-slate-950 rounded p-3">
           AI: Ask any question using AI about this document below:
         </div>
-        {chats?.map((chat) => (
+        {chats?.map((chat, i) => (
           <div
+            key={i}
             className={cn(
               {
                 "dark:bg-slate-800 bg-slate-200": chat.isHuman,

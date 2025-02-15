@@ -24,9 +24,8 @@ const Hero = () => {
             </div>
           </div>
           <p className={`font-poppins mt-5`}>
-            Our team of experts uses a methodology to identify the credit cards
-            most likely to fit your needs. We examine annual percentage rates,
-            annual fees.
+            Finnovate AI acts as your team&apos;s second brain, storing all your
+            files and allowing easy vector search.
           </p>
         </div>
       </div>
