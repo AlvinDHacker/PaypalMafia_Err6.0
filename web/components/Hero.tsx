@@ -14,7 +14,7 @@ const Hero = () => {
             <span>Take Control of your Financial Documents</span>
           </Badge>
           <div className="flex flex-row justify-between items-center">
-            <div className="flex-1 font-poppins font-semibold text-7xl text-black dark:text-white">
+            <div className="flex-1 font-poppins font-semibold sm:text-7xl text-5xl text-black dark:text-white">
               The Next <br className="sm:block hidden" />{" "}
               <span className="bg-gradient-to-r from-green-800 to-green-300 bg-clip-text text-transparent">
                 Generation
