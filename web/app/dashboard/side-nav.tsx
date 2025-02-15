@@ -71,7 +71,7 @@ export default function SideNav() {
       </ul>
       <div className="sm:hidden block fixed w-[80%] mx-1 bottom-0">
         <Docks
-          className="z-10 rounded-t-xl bg-white dark:bg-black shadow-md shadow-second"
+          className="z-20 rounded-t-xl bg-white dark:bg-black shadow-md shadow-second"
           direction="middle"
         >
           <DockIcon>

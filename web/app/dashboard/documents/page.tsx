@@ -24,7 +24,7 @@ export default function Home() {
       </div>
 
       {!documents && (
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-3 gap-8">
           {new Array(8).fill("").map((_, i) => (
             <Card
               key={i}
