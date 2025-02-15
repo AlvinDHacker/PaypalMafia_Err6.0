@@ -54,7 +54,7 @@ export default function NotesLayout({ children }: { children: ReactNode }) {
       )}
 
       {notes && notes.length > 0 && (
-        <div className="flex gap-12">
+        <div className="flex gap-12 pb-20">
           <ul className="space-y-2 w-[300px]">
             {notes?.map((note) => (
               <li

@@ -1,6 +1,8 @@
 import { AreaChartSimple } from "@/components/Charts/AreaChart";
 import { AreaChartStacked } from "@/components/Charts/AreaChartStacked";
 import { BarChartMultiple } from "@/components/Charts/BarChartMultiple";
+import { LabelledPieChart } from "@/components/Charts/LabelledPieChart";
+import { TextRadialChart } from "@/components/Charts/TextRadialChart";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -33,6 +35,9 @@ export default function Home() {
           </CardContent>
         </Card> */}
         <AreaChartSimple />
+        <AreaChartStacked />
+        <LabelledPieChart />
+        <TextRadialChart />
       </div>
     </main>
   );

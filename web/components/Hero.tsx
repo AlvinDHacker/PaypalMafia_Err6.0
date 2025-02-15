@@ -105,7 +105,7 @@ const Hero = () => {
             <Authenticated>
               <Link href={"/dashboard"}>
                 <Button className="gap-3">
-                  Dashboard <ExternalLink />
+                  Journey with us <ExternalLink />
                 </Button>
               </Link>
             </Authenticated>
