@@ -13,7 +13,7 @@ const CTA = () => (
   >
     <div className="flex flex-1 flex-col">
       <h2 className="font-semibold text-3xl sm:text-5xl text-black dark:text-white w-full">
-        Let&apos;s try our service now!
+        Try Finnovate AI now!
       </h2>
       <div className="text-black-300 dark:text-white text-md max-w-[470px] mt-5">
         Anything related to finance at your fingertips...
@@ -30,7 +30,7 @@ const CTA = () => (
       </Unauthenticated>
 
       <Authenticated>
-        <Link href="/dashboard" className="text-sm hover:underline">
+        <Link href="/dashboard/websearch" className="text-sm hover:underline">
           <Button className="gap-3">
             Ask a question <MessageCircleMore />
           </Button>

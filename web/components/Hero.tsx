@@ -21,6 +21,8 @@ import {
   TypingAnimation,
 } from "../components/ui/terminal";
 import { IconCloud } from "./ui/icon-cloud";
+import { AnimatedListDemo } from "./AnimatedListDemo";
+import { ConfettiButton } from "./ui/confetti";
 
 const Hero = () => {
   const slugs = [
@@ -104,15 +106,13 @@ const Hero = () => {
 
             <Authenticated>
               <Link href={"/dashboard"}>
-                <Button className="gap-3">
+                <ConfettiButton className="gap-3">
                   Journey with us <ExternalLink />
-                </Button>
+                </ConfettiButton>
               </Link>
             </Authenticated>
             <Unauthenticated>
-              <Button>
-                <SignInButton />
-              </Button>
+              <SignInButton />
             </Unauthenticated>
           </div>
         </div>
@@ -274,19 +274,54 @@ const Hero = () => {
             </div>
             <Authenticated>
               <Link href={"/dashboard"}>
-                <Button className="gap-3">
+                <ConfettiButton className="gap-3">
                   Try it out <ExternalLink />
-                </Button>
+                </ConfettiButton>
               </Link>
             </Authenticated>
             <Unauthenticated>
-              <Button>
-                <SignInButton />
-              </Button>
+              <SignInButton />
             </Unauthenticated>
           </div>
           <div className="relative flex size-full items-center justify-center overflow-hidden">
             <IconCloud images={images} />
+          </div>
+        </div>
+
+        <div className="mx-auto md:grid grid-cols-2 pb-16 md:mb-16 gap-7">
+          <div className="sm:block hidden">
+            <AnimatedListDemo />
+          </div>
+          <div className="text-black dark:text-white flex justify-between items-center flex-col sm:mb-16 mb-6">
+            <div className="my-auto">
+              <h2 className="font-poppins font-semibold text-3xl mb-3 w-full">
+                What do we answer ?
+              </h2>
+              <div className="w-full md:mt-0 mt-6">
+                <p className="font-poppins font-normal text-dimWhite text-md text-left mb-6 ">
+                  Finnovate AI answers complex financial questions by analyzing
+                  documents, generating insights, and providing clear
+                  explanations in real-time. Whether it&apos;s understanding
+                  financial reports, identifying cost-saving opportunities, or
+                  visualizing spending patterns, Finnovate delivers accurate,
+                  context-aware answers, making financial decision-making easier
+                  and more efficient.
+                </p>
+              </div>
+              <Authenticated>
+                <Link href={"/dashboard/websearch"}>
+                  <Button className="gap-3">
+                    Answer a Question <ExternalLink />
+                  </Button>
+                </Link>
+              </Authenticated>
+              <Unauthenticated>
+                <SignInButton />
+              </Unauthenticated>
+            </div>
+          </div>
+          <div className="sm:hidden block">
+            <AnimatedListDemo />
           </div>
         </div>
       </section>
