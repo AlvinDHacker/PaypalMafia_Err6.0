@@ -154,7 +154,9 @@ const Hero = () => {
               </Link>
             </Authenticated>
             <Unauthenticated>
-              <SignInButton />
+              <Button>
+                <SignInButton />
+              </Button>
             </Unauthenticated>
           </div>
         </div>
@@ -370,7 +372,9 @@ const Hero = () => {
               </Link>
             </Authenticated>
             <Unauthenticated>
-              <SignInButton />
+              <Button>
+                <SignInButton />
+              </Button>
             </Unauthenticated>
           </div>
           <div className="relative flex size-full items-center justify-center overflow-hidden">
@@ -406,7 +410,9 @@ const Hero = () => {
                 </Link>
               </Authenticated>
               <Unauthenticated>
-                <SignInButton />
+                <Button>
+                  <SignInButton />
+                </Button>
               </Unauthenticated>
             </div>
           </div>
