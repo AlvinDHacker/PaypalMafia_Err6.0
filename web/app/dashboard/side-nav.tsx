@@ -45,13 +45,13 @@ export default function SideNav() {
             className={cn(
               "flex flex-row gap-3 min-h-0 flex-1 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
               {
-                "text-green-600": pathname.endsWith("/websearch"),
+                "text-green-600": pathname.endsWith("/finnosearch"),
               }
             )}
-            href="/dashboard/websearch"
+            href="/dashboard/finnosearch"
           >
             <Globe />
-            WebSearch
+            FinnoSearch
           </Link>
         </li>
         <li>
@@ -107,10 +107,10 @@ export default function SideNav() {
             </Link>
           </DockIcon>
           <DockIcon>
-            <Link href={"/dashboard/websearch"}>
+            <Link href={"/dashboard/finnosearch"}>
               <Globe
                 className={cn("size-6 text-second", {
-                  "text-green-600": pathname.endsWith("/websearch"),
+                  "text-green-600": pathname.endsWith("/finnosearch"),
                 })}
               />
             </Link>

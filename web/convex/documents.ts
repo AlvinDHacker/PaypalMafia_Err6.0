@@ -20,33 +20,44 @@ const openai = new OpenAI({
 });
 
 export async function extractTextFromFile(
-  file: File,  // Change parameter type to File
+  file: File, // Change parameter type to File
   fileType: string
 ): Promise<string> {
   try {
-    if (fileType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || fileType === "application/vnd.ms-excel") {
+    if (
+      fileType ===
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
+      fileType === "application/vnd.ms-excel"
+    ) {
       return await extractFromExcel(file);
     }
     const formData = new FormData();
-    formData.append('file', file);  // Append file to FormData
+    formData.append("file", file); // Append file to FormData
 
-    const response = await fetch('https://content-extracter-api.onrender.com/extract-text', {
-      method: 'POST',
-      body: formData,  // Send FormData instead of raw ArrayBuffer
-    });
+    const response = await fetch(
+      "https://content-extracter-api.onrender.com/extract-text",
+      {
+        method: "POST",
+        body: formData, // Send FormData instead of raw ArrayBuffer
+      }
+    );
 
-    console.log(response)
+    console.log(response);
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error(`HTTP error! Status: ${response.status}, Body: ${errorText}`);
-      throw new Error(`HTTP error! Status: ${response.status}, Body: ${errorText}`);
+      console.error(
+        `HTTP error! Status: ${response.status}, Body: ${errorText}`
+      );
+      throw new Error(
+        `HTTP error! Status: ${response.status}, Body: ${errorText}`
+      );
     }
 
     const data = await response.json();
-    return data.text;  // Access 'text' instead of 'extractedText' as per API response
+    return data.text; // Access 'text' instead of 'extractedText' as per API response
   } catch (error) {
-    console.error('Error extracting text:', error);
+    console.error("Error extracting text:", error);
     throw error;
   }
 }
@@ -298,6 +309,7 @@ export const createDocument = mutation({
         orgId: args.orgId,
         fileType: args.fileType,
         extractedText: "",
+        graphData: [],
       });
     } else {
       documentId = await ctx.db.insert("documents", {
@@ -307,9 +319,11 @@ export const createDocument = mutation({
         description: "",
         fileType: args.fileType,
         extractedText: "",
+        graphData: [],
       });
     }
 
+    // Only run description generation
     await ctx.scheduler.runAfter(
       0,
       internal.documents.generateDocumentDescription,
@@ -339,17 +353,15 @@ export const generateDocumentDescription = internalAction({
       const fileBuffer = await file.arrayBuffer();
       // Convert ArrayBuffer to File object
       const getExtension = (fileType: string): string => {
-        const parts = fileType.split('/');
+        const parts = fileType.split("/");
         return parts[parts.length - 1];
       };
-      
+
       const extension = getExtension(args.fileType);
-      const fileObject = new File(
-        [fileBuffer], 
-        `file.${extension}`,
-        { type: args.fileType }
-      );
-      
+      const fileObject = new File([fileBuffer], `file.${extension}`, {
+        type: args.fileType,
+      });
+
       const extractedText = await extractTextFromFile(
         fileObject,
         args.fileType
@@ -414,6 +426,125 @@ export const updateDocumentDescription = internalMutation({
       description: args.description,
       embedding: args.embedding,
       extractedText: args.extractedText,
+    });
+  },
+});
+
+export const generateGraphs = action({
+  args: {
+    documentId: v.id("documents"),
+  },
+  async handler(ctx, args) {
+    const document = await ctx.runQuery(internal.documents.hasAccessToDocumentQuery, {
+      documentId: args.documentId,
+    });
+
+    if (!document) {
+      throw new ConvexError("Document not found or you don't have access");
+    }
+
+    try {
+      const extractedText = document.document.extractedText;
+
+      if (!extractedText) {
+        throw new ConvexError("Document text has not been extracted yet");
+      }
+
+      const MAX_CHARS = 4000;
+      const truncatedText = extractedText.length > MAX_CHARS
+        ? extractedText.substring(0, MAX_CHARS) + "... (truncated)"
+        : extractedText;
+
+      const chatCompletion = await openai.chat.completions.create({
+        messages: [
+          {
+            role: "system",
+            content: `Analyze this document content and generate MULTIPLE data visualizations that best represent the key insights: "${truncatedText}".
+            Select the most appropriate chart types from: simpleareachart, multiplebarchart, piechart, or textradchart.
+            Return a valid JSON array with the following structure:
+            [
+              {
+                "chartType": "one of: simpleareachart, multiplebarchart, piechart, textradchart",
+                "detailArr": [...chart data based on the chosen type...]
+              }
+            ]
+            
+            The detailArr should follow these formats based on the chartType:
+            
+            simpleareachart: 
+            [{ timeline: "January", value: 186 }, ...]
+            
+            multiplebarchart:
+            [{ timeline: "January", value1: 186, value2: 160 }, ...]
+            
+            piechart:
+            [{ label: "chrome", value: 275, fill: "var(--color-chrome)" }, ...]
+            
+            textradchart:
+            [{ label: "chrome", value: 275, fill: "var(--color-safari)" }, ...]
+             
+            Keep the main color as #
+            Generate as many charts as are relevant to the document's content.
+            If no charts are appropriate for this content, return an empty array: [].
+            DO NOT include any explanatory text, only return the JSON array of chart objects.`
+          },
+        ],
+        model: "gpt-4o",
+      });
+
+      const response = chatCompletion.choices[0].message.content;
+      
+      if (!response) {
+        throw new Error("No response from OpenAI");
+      }
+
+      let graphData;
+      try {
+        graphData = JSON.parse(response.trim());
+        
+        if (!Array.isArray(graphData)) {
+          throw new Error("Graph data is not an array");
+        }
+        
+        graphData = graphData.filter(chart => {
+          return chart && typeof chart.chartType === 'string' && Array.isArray(chart.detailArr);
+        });
+        
+      } catch (error) {
+        console.error("Error parsing graph data:", error);
+        graphData = [{
+          chartType: "piechart",
+          detailArr: []
+        }];
+      }
+
+      await ctx.runMutation(internal.documents.updateDocumentGraphData, {
+        documentId: args.documentId,
+        graphData,
+      });
+
+      return graphData;
+    } catch (error) {
+      console.error("Error generating graphs:", error);
+      throw new ConvexError("Failed to generate graph data");
+    }
+  },
+});
+
+// Update the mutation to handle the new array structure
+export const updateDocumentGraphData = internalMutation({
+  args: {
+    documentId: v.id("documents"),
+    graphData: v.array(
+      v.object({
+        chartType: v.string(),
+        detailArr: v.any(),
+      })
+    ),
+  },
+  async handler(ctx, args) {
+    await ctx.db.patch(args.documentId, {
+      graphData: args.graphData,
     });
   },
 });
