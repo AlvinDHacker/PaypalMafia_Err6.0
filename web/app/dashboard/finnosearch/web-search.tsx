@@ -13,18 +13,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { LoadingButton } from "@/components/loading-button";
+import { WebSearchChatForm } from "./web-search-chat-form";
 
 const formSchema = z.object({
   search: z.string().min(1).max(250),
 });
 
-interface SearchFormProps {
-  setResults: (results: typeof api.search.searchAction._returnType) => void;
-}
-
-function SearchForm({ setResults }: SearchFormProps) {
-  const organization = useOrganization();
-  const searchAction = useAction(api.search.searchAction);
+export default function WebSearch() {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,12 +29,6 @@ function SearchForm({ setResults }: SearchFormProps) {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    if (!organization.organization?.id) return;
-
-    await searchAction({
-      search: values.search,
-      orgId: organization.organization.id,
-    }).then(setResults);
     form.reset();
   }
 
@@ -56,7 +45,7 @@ function SearchForm({ setResults }: SearchFormProps) {
             <FormItem className="flex-1">
               <FormControl>
                 <Input
-                  placeholder="Search over all your notes and documents using vector searching"
+                  placeholder="Chat with any website related to finance"
                   {...field}
                 />
               </FormControl>
@@ -67,9 +56,9 @@ function SearchForm({ setResults }: SearchFormProps) {
 
         <LoadingButton
           isLoading={form.formState.isSubmitting}
-          loadingText="Searching..."
+          loadingText="Creating..."
         >
-          Search
+          Create
         </LoadingButton>
       </form>
     </Form>
