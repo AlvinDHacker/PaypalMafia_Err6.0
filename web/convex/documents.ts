@@ -24,38 +24,62 @@ export async function extractTextFromFile(
   fileType: string
 ): Promise<string> {
   try {
+    const formData = new FormData();
+    formData.append("file", file);
     if (
       fileType ===
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ||
       fileType === "application/vnd.ms-excel"
     ) {
       return await extractFromExcel(file);
-    }
-    const formData = new FormData();
-    formData.append("file", file); // Append file to FormData
-
-    const response = await fetch(
-      "https://content-extracter-api.onrender.com/extract-text",
-      {
+    } else if (
+      fileType === "image/png" ||
+      fileType === "image/jpeg" ||
+      fileType === "image/jpg"
+    ) {
+      const response = await fetch("http://127.0.0.1:5001/extract-text", {
         method: "POST",
         body: formData, // Send FormData instead of raw ArrayBuffer
+      });
+
+      console.log(response);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(
+          `HTTP error! Status: ${response.status}, Body: ${errorText}`
+        );
+        throw new Error(
+          `HTTP error! Status: ${response.status}, Body: ${errorText}`
+        );
       }
-    );
 
-    console.log(response);
+      const data = await response.json();
+      return data.text;
+    } else {
+      const response = await fetch(
+        "https://content-extracter-api.onrender.com/extract-text",
+        {
+          method: "POST",
+          body: formData, // Send FormData instead of raw ArrayBuffer
+        }
+      );
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(
-        `HTTP error! Status: ${response.status}, Body: ${errorText}`
-      );
-      throw new Error(
-        `HTTP error! Status: ${response.status}, Body: ${errorText}`
-      );
+      console.log(response);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error(
+          `HTTP error! Status: ${response.status}, Body: ${errorText}`
+        );
+        throw new Error(
+          `HTTP error! Status: ${response.status}, Body: ${errorText}`
+        );
+      }
+
+      const data = await response.json();
+      return data.text;
     }
-
-    const data = await response.json();
-    return data.text; // Access 'text' instead of 'extractedText' as per API response
   } catch (error) {
     console.error("Error extracting text:", error);
     throw error;
@@ -435,9 +459,12 @@ export const generateGraphs = action({
     documentId: v.id("documents"),
   },
   async handler(ctx, args) {
-    const document = await ctx.runQuery(internal.documents.hasAccessToDocumentQuery, {
-      documentId: args.documentId,
-    });
+    const document = await ctx.runQuery(
+      internal.documents.hasAccessToDocumentQuery,
+      {
+        documentId: args.documentId,
+      }
+    );
 
     if (!document) {
       throw new ConvexError("Document not found or you don't have access");
@@ -451,49 +478,52 @@ export const generateGraphs = action({
       }
 
       const MAX_CHARS = 4000;
-      const truncatedText = extractedText.length > MAX_CHARS
-        ? extractedText.substring(0, MAX_CHARS) + "... (truncated)"
-        : extractedText;
+      const truncatedText =
+        extractedText.length > MAX_CHARS
+          ? extractedText.substring(0, MAX_CHARS) + "... (truncated)"
+          : extractedText;
 
       const chatCompletion = await openai.chat.completions.create({
         messages: [
           {
             role: "system",
             content: `Analyze this document content and generate MULTIPLE data visualizations that best represent the key insights: "${truncatedText}".
-            Select the most appropriate chart types from: simpleareachart, multiplebarchart, piechart, or textradchart.
-            Return a valid JSON array with the following structure:
-            [
-              {
-                "chartType": "one of: simpleareachart, multiplebarchart, piechart, textradchart",
-                "detailArr": [...chart data based on the chosen type...]
-              }
-            ]
-            
-            The detailArr should follow these formats based on the chartType:
-            
-            simpleareachart: 
-            [{ timeline: "January", value: 186 }, ...]
-            
-            multiplebarchart:
-            [{ timeline: "January", value1: 186, value2: 160 }, ...]
-            
-            piechart:
-            [{ label: "chrome", value: 275, fill: "var(--color-chrome)" }, ...]
-            
-            textradchart:
-            [{ label: "chrome", value: 275, fill: "var(--color-safari)" }, ...]
-             
-            Keep the main color as #
+                Select the most appropriate chart types from: simpleareachart, multiplebarchart, piechart, or textradchart.
+                Return a valid JSON array with the following structure:
+                [
+                  {
+                    "chartType": "one of: simpleareachart, multiplebarchart, piechart, textradchart",
+                    "detailArr": [...chart data based on the chosen type...]
+                  }
+                ]
+                
+                The detailArr should follow these formats based on the chartType:
+                
+                simpleareachart: 
+                [{ timeline: "January", value: 186 }, ...]
+                
+                multiplebarchart:
+                [{ timeline: "January", value1: 186, value2: 160 }, ...]
+                
+                piechart:
+                [{ label: "chrome", value: 275, fill: "var(--color-chrome)" }, ...]
+                
+                textradchart:
+                [{ label: "chrome", value: 275, fill: "var(--color-safari)" }, ...]
+                 
+                Keep the main color as #56b76c. So keep the colors similar to the main color.
             Generate as many charts as are relevant to the document's content.
             If no charts are appropriate for this content, return an empty array: [].
-            DO NOT include any explanatory text, only return the JSON array of chart objects.`
+            DO NOT include any explanatory text, only return the JSON array of chart objects.`,
           },
         ],
-        model: "gpt-4o",
+        model: "gpt-4",
+        temperature: 0.7,
+        max_tokens: 1500,
       });
 
       const response = chatCompletion.choices[0].message.content;
-      
+
       if (!response) {
         throw new Error("No response from OpenAI");
       }
@@ -501,21 +531,26 @@ export const generateGraphs = action({
       let graphData;
       try {
         graphData = JSON.parse(response.trim());
-        
+
         if (!Array.isArray(graphData)) {
           throw new Error("Graph data is not an array");
         }
-        
-        graphData = graphData.filter(chart => {
-          return chart && typeof chart.chartType === 'string' && Array.isArray(chart.detailArr);
+
+        graphData = graphData.filter((chart) => {
+          return (
+            chart &&
+            typeof chart.chartType === "string" &&
+            Array.isArray(chart.detailArr)
+          );
         });
-        
       } catch (error) {
         console.error("Error parsing graph data:", error);
-        graphData = [{
-          chartType: "piechart",
-          detailArr: []
-        }];
+        graphData = [
+          {
+            chartType: "piechart",
+            detailArr: [],
+          },
+        ];
       }
 
       await ctx.runMutation(internal.documents.updateDocumentGraphData, {
