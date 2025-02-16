@@ -54,7 +54,7 @@ export default function Home() {
       <div className="flex justify-between items-center">
         <h1 className="text-4xl font-bold">Analytics</h1>
       </div>
-      <div className="grid sm:grid-cols-2 gap-3 pb-20">
+      <div className="z-1 grid sm:grid-cols-2 gap-3 pb-20">
         <BarChartMultiple data={multiplebarchart} />
         <AreaChartSimple data={simpleareachart} />
         <AreaChartStacked data={multiplebarchart} />

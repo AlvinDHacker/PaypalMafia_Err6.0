@@ -7,16 +7,15 @@ export default function NotFound() {
         <div className="flex justify-center">
           <AlertCircle className="h-20 w-20 text-[#56b76c]" />
         </div>
-        
-        <h1 className="text-4xl font-bold text-gray-900">
-          Page Not Found
-        </h1>
-        
+
+        <h1 className="text-4xl font-bold text-gray-900">Page Not Found</h1>
+
         <p className="text-gray-600 text-lg">
-          Oops! The page you're looking for doesn't exist or has been moved.
+          Oops! The page you&apos;re looking for doesn&apos;t exist or has been
+          moved.
         </p>
-        
-        <a 
+
+        <a
           href="/"
           className="inline-block px-6 py-3 bg-[#56b76c] text-white rounded-lg hover:bg-[#2d8642] transition-colors"
         >
