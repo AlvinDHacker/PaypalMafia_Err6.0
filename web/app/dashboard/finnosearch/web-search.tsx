@@ -1,9 +1,6 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useOrganization } from "@clerk/nextjs";
-import { useAction } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -13,13 +10,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { LoadingButton } from "@/components/loading-button";
-import { WebSearchChatForm } from "./web-search-chat-form";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   search: z.string().min(1).max(250),
 });
 
 export default function WebSearch() {
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,6 +55,9 @@ export default function WebSearch() {
         <LoadingButton
           isLoading={form.formState.isSubmitting}
           loadingText="Creating..."
+          onClick={
+            () => router.push(`/dashboard/finnosearch/${form.getValues("search")}`)
+          }
         >
           Create
         </LoadingButton>

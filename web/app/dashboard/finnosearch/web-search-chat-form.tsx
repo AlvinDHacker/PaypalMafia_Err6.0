@@ -27,7 +27,7 @@ export function WebSearchChatForm({
   sessionId: string;
   initialMessages: Message[];
 }) {
-  const { messages, handleInputChange, handleSubmit, input, setInput } =
+  const { messages, handleInputChange, handleSubmit, input, setInput, isLoading } =
     useChat({
       api: "/api/chat-stream",
       body: { sessionId },
@@ -103,7 +103,7 @@ export function WebSearchChatForm({
             />
 
             <LoadingButton
-              isLoading={form.formState.isSubmitting}
+              isLoading={isLoading}
               loadingText="Submitting..."
             >
               Submit
