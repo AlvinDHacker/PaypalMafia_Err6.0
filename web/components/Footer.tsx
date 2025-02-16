@@ -88,7 +88,13 @@ const Footer = () => {
                             : "mb-0"
                         }`}
                     >
-                      <Link href={link.link}>{link.name}</Link>
+                      {footerlink.title == "Creators" ? (
+                        <Link target="blank" href={link.link}>
+                          {link.name}
+                        </Link>
+                      ) : (
+                        <Link href={link.link}>{link.name}</Link>
+                      )}
                     </li>
                   ))}
                 </ul>

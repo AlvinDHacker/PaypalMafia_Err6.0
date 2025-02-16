@@ -305,7 +305,7 @@ const Hero = () => {
                 <p className="font-poppins font-normal text-dimWhite text-md text-left mb-6 ">
                   Finnovate AI answers complex financial questions by analyzing
                   documents, generating insights, and providing clear
-                  explanations in real-time. Whether it's understanding
+                  explanations in real-time. Whether it&apos;s understanding
                   financial reports, identifying cost-saving opportunities, or
                   visualizing spending patterns, Finnovate delivers accurate,
                   context-aware answers, making financial decision-making easier
