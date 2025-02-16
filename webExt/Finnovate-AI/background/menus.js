@@ -18,7 +18,7 @@ const MENUS = {
   },
   askAnything: {
     key: "askAnything",
-    title: "Ask Anything",
+    title: "Detailed Analytics",
   },
   generateReply: {
     key: "generateReply",
