@@ -33,31 +33,31 @@ export async function extractTextFromFile(
     ) {
       return await extractFromExcel(file);
     }
-    if (
-      fileType === "image/png" ||
-      fileType === "image/jpeg" ||
-      fileType === "image/jpg"
-    ) {
-      const response = await fetch("http://127.0.0.1:5001/extract-text", {
-        method: "POST",
-        body: formData, // Send FormData instead of raw ArrayBuffer
-      });
+    // if (
+    //   fileType === "image/png" ||
+    //   fileType === "image/jpeg" ||
+    //   fileType === "image/jpg"
+    // ) {
+    //   const response = await fetch("http://127.0.0.1:5001/extract-text", {
+    //     method: "POST",
+    //     body: formData, // Send FormData instead of raw ArrayBuffer
+    //   });
 
-      console.log(response);
+    //   console.log(response);
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error(
-          `HTTP error! Status: ${response.status}, Body: ${errorText}`
-        );
-        throw new Error(
-          `HTTP error! Status: ${response.status}, Body: ${errorText}`
-        );
-      }
+    //   if (!response.ok) {
+    //     const errorText = await response.text();
+    //     console.error(
+    //       `HTTP error! Status: ${response.status}, Body: ${errorText}`
+    //     );
+    //     throw new Error(
+    //       `HTTP error! Status: ${response.status}, Body: ${errorText}`
+    //     );
+    //   }
 
-      const data = await response.json();
-      return data.text;
-    }
+    //   const data = await response.json();
+    //   return data.text;
+    // }
     const response = await fetch(
       "https://content-extracter-api.onrender.com/extract-text",
       {
