@@ -27,20 +27,17 @@ toggleModeBtn.addEventListener("click", () => {
 
 document.getElementById("saveButton").addEventListener("click", () => {
   const gptKey = document.getElementById("gptKey").value;
-  // const geminiKey = document.getElementById("geminiKey").value;
-  const geminiKey = 'AIzaSyC9LkhcOQ0V-d43l9UVH4md1B8jT7Ia1Iw';
+  const geminiKey = document.getElementById("geminiKey").value;
   const grokKey = document.getElementById("grokKey").value;
 
   const gptEndpoint =
     document.getElementById("gptEndpoint").value || GPT_ENDPOINT;
-  // const geminiEndpoint =
-  //   document.getElementById("geminiEndpoint").value || GEMINI_ENDPOINT;
-  const geminiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent';
+  const geminiEndpoint =
+    document.getElementById("geminiEndpoint").value || GEMINI_ENDPOINT;
   const grokEndpoint =
     document.getElementById("grokEndpoint").value || GROK_ENDPOINT;
 
-  // const selectedAI = document.getElementById("toggle").value;
-  const selectedAI = 'Gemini';
+  const selectedAI = document.getElementById("toggle").value;
 
   chrome.storage.local.get("DATA", ({ DATA }) => {
     const newData = {
@@ -65,17 +62,14 @@ document.getElementById("saveButton").addEventListener("click", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   const gptKey = document.getElementById("gptKey");
-  // const geminiKey = document.getElementById("geminiKey");
-  const geminiKey = 'AIzaSyC9LkhcOQ0V-d43l9UVH4md1B8jT7Ia1Iw';
+  const geminiKey = document.getElementById("geminiKey");
   const grokKey = document.getElementById("grokKey");
 
   const gptEndpoint = document.getElementById("gptEndpoint");
-  // const geminiEndpoint = document.getElementById("geminiEndpoint");
-  const geminiEndpoint = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent'
+  const geminiEndpoint = document.getElementById("geminiEndpoint");
   const grokEndpoint = document.getElementById("grokEndpoint");
 
-  // const selectedAI = document.getElementById("toggle");
-  const selectedAI = 'Gemini';
+  const selectedAI = document.getElementById("toggle");
 
   chrome.storage.local.get("DATA", (result) => {
     const info = result.DATA;
