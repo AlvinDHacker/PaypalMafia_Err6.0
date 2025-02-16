@@ -14,63 +14,95 @@ import OpenAI from "openai";
 import { Id } from "./_generated/dataModel";
 import { embed } from "./notes";
 import * as xlsx from "xlsx";
-import Tesseract from "tesseract.js";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Function to extract text based on file type
 export async function extractTextFromFile(
-  file: ArrayBuffer,
+  file: File,  // Change parameter type to File
   fileType: string
 ): Promise<string> {
-  switch (fileType.toLowerCase()) {
-    case "application/pdf":
-      return await extractFromPDF(file);
-    case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
-    case "application/vnd.ms-excel":
-      return await extractFromExcel(file);
-    case "text/csv":
-      return await extractFromCSV(file);
-    case "image/jpeg":
-    case "image/png":
-    case "image/jpg":
-      return await extractFromImage(file);
-    case "text/plain":
-    case "application/msword":
-    case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-      return Buffer.from(file).toString("utf-8");
-    default:
-      throw new ConvexError(`Unsupported file type: ${fileType}`);
-  }
-}
-
-// PDF extraction
-async function extractFromPDF(file: ArrayBuffer): Promise<string> {
   try {
-    // Convert ArrayBuffer to string and look for text patterns
-    const textDecoder = new TextDecoder("utf-8");
-    const rawText = textDecoder.decode(file);
+    if (fileType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" || fileType === "application/vnd.ms-excel") {
+      return await extractFromExcel(file);
+    }
+    const formData = new FormData();
+    formData.append('file', file);  // Append file to FormData
 
-    // Very basic text extraction - find text between parentheses
-    // This is extremely simplistic but may extract some basic content
-    const textMatches = rawText.match(/\((.*?)\)/g) || [];
-    const extractedText = textMatches
-      .map((match) => match.slice(1, -1))
-      .filter((text) => /^[\x20-\x7E]+$/.test(text)) // Keep only printable ASCII
-      .join(" ");
+    const response = await fetch('https://content-extracter-api.onrender.com/extract-text', {
+      method: 'POST',
+      body: formData,  // Send FormData instead of raw ArrayBuffer
+    });
 
-    return extractedText || "Could not extract meaningful text from this PDF.";
+    console.log(response)
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`HTTP error! Status: ${response.status}, Body: ${errorText}`);
+      throw new Error(`HTTP error! Status: ${response.status}, Body: ${errorText}`);
+    }
+
+    const data = await response.json();
+    return data.text;  // Access 'text' instead of 'extractedText' as per API response
   } catch (error) {
-    console.error("Error in basic PDF text extraction:", error);
-    return "Error: Could not process this PDF file.";
+    console.error('Error extracting text:', error);
+    throw error;
   }
 }
+
+// // Function to extract text based on file type
+// export async function extractTextFromFile(
+//   file: ArrayBuffer,
+//   fileType: string
+// ): Promise<string> {
+//   switch (fileType.toLowerCase()) {
+//     case "application/pdf":
+//       return await extractFromPDF(file);
+//     case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+//     case "application/vnd.ms-excel":
+//       return await extractFromExcel(file);
+//     case "text/csv":
+//       return await extractFromCSV(file);
+//     case "image/jpeg":
+//     case "image/png":
+//     case "image/jpg":
+//       return await extractFromImage(file);
+//     case "text/plain":
+//     case "application/msword":
+//     case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+//       return Buffer.from(file).toString("utf-8");
+//     default:
+//       throw new ConvexError(`Unsupported file type: ${fileType}`);
+//   }
+// }
+
+// // PDF extraction
+// async function extractFromPDF(file: ArrayBuffer): Promise<string> {
+//   try {
+//     // Convert ArrayBuffer to string and look for text patterns
+//     const textDecoder = new TextDecoder("utf-8");
+//     const rawText = textDecoder.decode(file);
+
+//     // Very basic text extraction - find text between parentheses
+//     // This is extremely simplistic but may extract some basic content
+//     const textMatches = rawText.match(/\((.*?)\)/g) || [];
+//     const extractedText = textMatches
+//       .map((match) => match.slice(1, -1))
+//       .filter((text) => /^[\x20-\x7E]+$/.test(text)) // Keep only printable ASCII
+//       .join(" ");
+
+//     return extractedText || "Could not extract meaningful text from this PDF.";
+//   } catch (error) {
+//     console.error("Error in basic PDF text extraction:", error);
+//     return "Error: Could not process this PDF file.";
+//   }
+// }
 
 // Excel extraction
-async function extractFromExcel(file: ArrayBuffer): Promise<string> {
-  const workbook = xlsx.read(file, { type: "array" });
+async function extractFromExcel(file: File): Promise<string> {
+  const fileBuffer = await file.arrayBuffer();
+  const workbook = xlsx.read(fileBuffer, { type: "array" });
   let text = "";
 
   workbook.SheetNames.forEach((sheetName) => {
@@ -87,43 +119,43 @@ async function extractFromExcel(file: ArrayBuffer): Promise<string> {
   return text;
 }
 
-// CSV extraction using xlsx (since it can handle CSV too)
-async function extractFromCSV(file: ArrayBuffer): Promise<string> {
-  try {
-    const buffer = Buffer.from(file);
-    // Use XLSX to parse CSV - it's more stable in serverless environments
-    const workbook = xlsx.read(buffer, { type: "array" });
-    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-    const data = xlsx.utils.sheet_to_json(firstSheet, { header: 1 });
+// // CSV extraction using xlsx (since it can handle CSV too)
+// async function extractFromCSV(file: ArrayBuffer): Promise<string> {
+//   try {
+//     const buffer = Buffer.from(file);
+//     // Use XLSX to parse CSV - it's more stable in serverless environments
+//     const workbook = xlsx.read(buffer, { type: "array" });
+//     const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+//     const data = xlsx.utils.sheet_to_json(firstSheet, { header: 1 });
 
-    let text = "";
-    data.forEach((row: any) => {
-      if (Array.isArray(row)) {
-        text += row.join(" ") + "\n";
-      }
-    });
+//     let text = "";
+//     data.forEach((row: any) => {
+//       if (Array.isArray(row)) {
+//         text += row.join(" ") + "\n";
+//       }
+//     });
 
-    return text;
-  } catch (error) {
-    console.error("Error extracting CSV text:", error);
-    return "Error: Could not extract text from CSV file.";
-  }
-}
+//     return text;
+//   } catch (error) {
+//     console.error("Error extracting CSV text:", error);
+//     return "Error: Could not extract text from CSV file.";
+//   }
+// }
 
-// Image extraction using Tesseract
-async function extractFromImage(file: ArrayBuffer): Promise<string> {
-  try {
-    const {
-      data: { text },
-    } = await Tesseract.recognize(Buffer.from(file), "eng", {
-      logger: (m) => console.log(m),
-    });
-    return text;
-  } catch (error) {
-    console.error("Error extracting image text:", error);
-    return "Error: Could not extract text from image file.";
-  }
-}
+// // Image extraction using Tesseract
+// async function extractFromImage(file: ArrayBuffer): Promise<string> {
+//   try {
+//     const {
+//       data: { text },
+//     } = await Tesseract.recognize(Buffer.from(file), "eng", {
+//       logger: (m) => console.log(m),
+//     });
+//     return text;
+//   } catch (error) {
+//     console.error("Error extracting image text:", error);
+//     return "Error: Could not extract text from image file.";
+//   }
+// }
 
 export async function hasAccessToDocument(
   ctx: MutationCtx | QueryCtx,
@@ -305,8 +337,21 @@ export const generateDocumentDescription = internalAction({
 
     try {
       const fileBuffer = await file.arrayBuffer();
+      // Convert ArrayBuffer to File object
+      const getExtension = (fileType: string): string => {
+        const parts = fileType.split('/');
+        return parts[parts.length - 1];
+      };
+      
+      const extension = getExtension(args.fileType);
+      const fileObject = new File(
+        [fileBuffer], 
+        `file.${extension}`,
+        { type: args.fileType }
+      );
+      
       const extractedText = await extractTextFromFile(
-        fileBuffer,
+        fileObject,
         args.fileType
       );
 
