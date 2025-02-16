@@ -23,8 +23,35 @@ import {
 import { IconCloud } from "./ui/icon-cloud";
 import { AnimatedListDemo } from "./AnimatedListDemo";
 import { ConfettiButton } from "./ui/confetti";
+import { useEffect, useRef, useState } from "react";
 
 const Hero = () => {
+  const useIsVisible = () => {
+    const [isVisible, setIsVisible] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          setIsVisible(entry.isIntersecting);
+        },
+        { threshold: 0.1 }
+      );
+
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+
+      return () => {
+        if (ref.current) {
+          observer.unobserve(ref.current);
+        }
+      };
+    }, []);
+
+    return { ref, isVisible };
+  };
+
   const slugs = [
     "paypal",
     "visa",
@@ -33,17 +60,17 @@ const Hero = () => {
     "americanexpress",
     "chase",
     "citibank",
-    "capitalone",
-    "discover",
+    "hdfcbank",
+    "monero",
     "amex",
     "barclays",
     "allianz",
     "metlife",
     "prudential",
-    "vanguard",
-    "fidelity",
-    "schwab",
-    "blackrock",
+    "phonepe",
+    "fineco",
+    "interactjs",
+    "instapaper",
     "robinhood",
     "etrade",
     "wealthfront",
@@ -66,6 +93,21 @@ const Hero = () => {
     "samsungpay",
     "revolut",
   ];
+
+  const { ref, isVisible } = useIsVisible();
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  useEffect(() => {
+    if (isVisible) {
+      setShouldAnimate(true);
+    }
+  }, [isVisible]);
+
+  useEffect(() => {
+    if (isVisible) {
+      setShouldAnimate(true);
+    }
+  }, [isVisible]);
 
   const images = slugs.map(
     (slug) => `https://cdn.simpleicons.org/${slug}/${slug}`
@@ -132,10 +174,6 @@ const Hero = () => {
           <div className="absolute z-[0] w-[50%] h-[50%] right-20 bottom-20 blue__gradient" />
           {/* gradient end */}
         </div>
-
-        {/* <div className={`sm:hidden flex justify-center items-center`}>
-        <GetStarted />
-      </div> */}
       </section>
       <section className="w-[90%] mx-auto">
         <div className="text-black dark:text-white flex justify-between items-center flex-col sm:mb-16 mb-6">
@@ -163,7 +201,59 @@ const Hero = () => {
 
         <div className="grid sm:grid-cols-4 gap-3 mb-6">
           <div className="sm:col-span-2">
-            <Terminal className="sm:w-full min-w-[90%]">
+            <div ref={ref}>
+              {shouldAnimate && (
+                <Terminal className="sm:w-full min-w-[90%]">
+                  <TypingAnimation>
+                    &gt; The Next Generation Finance Solution
+                  </TypingAnimation>
+                  <AnimatedSpan delay={1500} className="text-green-500">
+                    <span>✔ Document Analysis and Insights</span>
+                  </AnimatedSpan>
+                  <AnimatedSpan delay={2000} className="text-green-500">
+                    <span>✔ Interactive Video Integration</span>
+                  </AnimatedSpan>
+                  <AnimatedSpan delay={2500} className="text-green-500">
+                    <span>✔ Graph and Chart Generation</span>
+                  </AnimatedSpan>
+                  <AnimatedSpan delay={3000} className="text-green-500">
+                    <span>✔ Tax Optimization Suggestions</span>
+                  </AnimatedSpan>
+                  <AnimatedSpan delay={3500} className="text-green-500">
+                    <span>✔ Collaborative Financial Review</span>
+                  </AnimatedSpan>
+                  <AnimatedSpan delay={4000} className="text-green-500">
+                    <span>✔ Expense Categorization and Analysis</span>
+                  </AnimatedSpan>
+                  <AnimatedSpan delay={4500} className="text-green-500">
+                    <span>✔ Smart Querying with Contextual AI</span>
+                  </AnimatedSpan>
+                  <AnimatedSpan delay={5000} className="text-green-500">
+                    <span>✔ PDF Extension for Browsers</span>
+                  </AnimatedSpan>
+                  <AnimatedSpan delay={5500} className="text-green-500">
+                    <span>✔ Data Privacy and Security</span>
+                  </AnimatedSpan>
+                  <AnimatedSpan delay={6000} className="text-blue-500">
+                    <span>ℹ Thank you for using Finnovate AI:</span>
+                    <span className="pl-2">- Try it out</span>
+                  </AnimatedSpan>
+                  <TypingAnimation
+                    delay={6500}
+                    className="text-muted-foreground"
+                  >
+                    Success! Project initialized.
+                  </TypingAnimation>
+                  <TypingAnimation
+                    delay={7000}
+                    className="text-muted-foreground"
+                  >
+                    You may now add components.
+                  </TypingAnimation>
+                </Terminal>
+              )}
+            </div>
+            {/* <Terminal className="sm:w-full min-w-[90%]">
               <TypingAnimation>
                 &gt; The Next Generation Finance Solution
               </TypingAnimation>
@@ -204,7 +294,7 @@ const Hero = () => {
               <TypingAnimation delay={7000} className="text-muted-foreground">
                 You may now add components.
               </TypingAnimation>
-            </Terminal>
+            </Terminal> */}
           </div>
 
           <div className="dark:hover:bg-gray-900 hover:bg-gray-100 dark:bg-gray-800 bg-gray-200 dark:text-white text-black flex flex-col justify-between transition-all duration-300 p-6 rounded-2xl max-w-[370px] shadow-md hover:shadow-lg">
