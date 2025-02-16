@@ -17,41 +17,31 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-];
 
-interface AreaChartSimpleInterface {
+export interface AreaChartSimpleInterface {
   timeline: string;
   value: Number;
 }
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  value: {
+    label: "value",
     color: "hsl(var(--chart-1))",
   },
 } satisfies ChartConfig;
 
-export function AreaChartSimple() {
+export function AreaChartSimple({
+  data,
+}: {
+  data: AreaChartSimpleInterface[];
+}) {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Area Chart</CardTitle>
-        <CardDescription>
-          Showing total visitors for the last 6 months
-        </CardDescription>
-      </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
           <AreaChart
             accessibilityLayer
-            data={chartData}
+            data={data}
             margin={{
               left: 12,
               right: 12,
@@ -59,7 +49,7 @@ export function AreaChartSimple() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="timeline"
               tickLine={false}
               axisLine={false}
               tickMargin={8}
@@ -70,27 +60,15 @@ export function AreaChartSimple() {
               content={<ChartTooltipContent indicator="line" />}
             />
             <Area
-              dataKey="desktop"
+              dataKey="value"
               type="natural"
-              fill="var(--color-desktop)"
+              fill="var(--color-value)"
               fillOpacity={0.4}
-              stroke="var(--color-desktop)"
+              stroke="var(--color-value)"
             />
           </AreaChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
-            </div>
-          </div>
-        </div>
-      </CardFooter>
     </Card>
   );
 }
