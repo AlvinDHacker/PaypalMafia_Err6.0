@@ -6,6 +6,7 @@ export default defineSchema({
     orgId: v.string(),
     userId: v.string(),
   }).index("by_orgId_userId", ["orgId", "userId"]),
+
   documents: defineTable({
     title: v.string(),
     fileId: v.id("_storage"),
@@ -15,6 +16,7 @@ export default defineSchema({
     embedding: v.optional(v.array(v.float64())),
     fileType: v.string(),
     extractedText: v.string(),
+    graphData: v.optional(v.any()), // Added graphData field for storing visualization data
   })
     .index("by_tokenIdentifier", ["tokenIdentifier"])
     .index("by_orgId", ["orgId"])
@@ -23,6 +25,7 @@ export default defineSchema({
       dimensions: 1536,
       filterFields: ["tokenIdentifier", "orgId"],
     }),
+
   notes: defineTable({
     text: v.string(),
     orgId: v.optional(v.string()),
@@ -36,6 +39,7 @@ export default defineSchema({
       dimensions: 1536,
       filterFields: ["tokenIdentifier", "orgId"],
     }),
+
   chats: defineTable({
     documentId: v.id("documents"),
     tokenIdentifier: v.string(),

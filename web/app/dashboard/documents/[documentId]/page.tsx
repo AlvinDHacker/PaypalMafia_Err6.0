@@ -7,6 +7,7 @@ import ChatPanel from "./chat-panel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DeleteDocumentButton } from "./delete-document-button";
+import GraphPanel from "./graph-panel";
 
 export default function DocumentPage({
   params,
@@ -47,6 +48,7 @@ export default function DocumentPage({
               <TabsList className="mb-2">
                 <TabsTrigger value="document">Document</TabsTrigger>
                 <TabsTrigger value="chat">Chat</TabsTrigger>
+                <TabsTrigger value="graph">Graph</TabsTrigger>
               </TabsList>
 
               <TabsContent value="document">
@@ -61,6 +63,9 @@ export default function DocumentPage({
               </TabsContent>
               <TabsContent value="chat">
                 <ChatPanel documentId={document._id} />
+              </TabsContent>
+              <TabsContent value="graph">
+                <GraphPanel documentId={document._id} />
               </TabsContent>
             </Tabs>
           </div>
