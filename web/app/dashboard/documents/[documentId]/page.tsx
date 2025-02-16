@@ -43,7 +43,7 @@ export default function DocumentPage({
           </div>
 
           <div className="flex gap-12">
-            <Tabs defaultValue="document" className="w-full">
+            <Tabs defaultValue="chat" className="w-full">
               <TabsList className="mb-2">
                 <TabsTrigger value="document">Document</TabsTrigger>
                 <TabsTrigger value="chat">Chat</TabsTrigger>

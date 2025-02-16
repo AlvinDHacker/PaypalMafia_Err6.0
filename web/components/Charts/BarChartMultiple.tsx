@@ -17,39 +17,33 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
+
+export interface MultipleChartInterface {
+  timeline: string;
+  value1: Number;
+  value2: Number;
+}
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  value1: {
+    label: "value1",
     color: "hsl(var(--chart-1))",
   },
-  mobile: {
-    label: "Mobile",
+  value2: {
+    label: "value2",
     color: "hsl(var(--chart-2))",
   },
 } satisfies ChartConfig;
 
-export function BarChartMultiple() {
+export function BarChartMultiple({ data }: { data: MultipleChartInterface[] }) {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Bar Chart - Multiple</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
-      </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
+          <BarChart accessibilityLayer data={data}>
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="timeline"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
@@ -59,19 +53,11 @@ export function BarChartMultiple() {
               cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
             />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-            <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+            <Bar dataKey="value1" fill="var(--color-value1)" radius={4} />
+            <Bar dataKey="value2" fill="var(--color-value2)" radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   );
 }
