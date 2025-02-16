@@ -21,26 +21,7 @@ import { useOrganization } from "@clerk/nextjs";
 
 const formSchema = z.object({
   title: z.string().min(1).max(250),
-  file: z.instanceof(File).refine(
-    (file) => {
-      const allowedTypes = [
-        'application/pdf',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        'application/vnd.ms-excel',
-        'text/csv',
-        'image/jpeg',
-        'image/png',
-        'image/jpg',
-        'text/plain',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      ];
-      return allowedTypes.includes(file.type);
-    },
-    {
-      message: 'Unsupported file type. Please upload PDF, Excel, CSV, Image, or Text files.',
-    }
-  ),
+  file: z.instanceof(File),
 });
 
 export default function UploadDocumentForm({

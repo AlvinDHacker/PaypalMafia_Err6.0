@@ -83,7 +83,7 @@ export default function SideNav() {
           </Link>
         </li>
       </ul>
-      <div className="sm:hidden flex justify-center fixed w-[80%] mx-1 bottom-0">
+      <div className="sm:hidden flex justify-center fixed w-[80%] ml-1.5 bottom-0">
         <Docks
           className="z-10 rounded-t-xl bg-white dark:bg-black shadow-md shadow-second"
           direction="middle"
